@@ -50,15 +50,15 @@
       report-csv = pkgs.runCommand "report-csv" {} ''
         set -x
         mkdir $out
-        echo "package,status" >> $out/report.csv
+        echo "package,system,status" >> $out/report.csv
         function pkg() {
           status="ok"
           [ -e $1/.LOG/failed ]  && status="failed"
           [ -e $1/.LOG/aborted ] && aborted="aborted"
-          echo $2,$status >> $out/report.csv
+          echo $2,$3,$status >> $out/report.csv
         }
         ${pkgs.lib.concatMapStrings (d: ''
-                                          pkg ${d} ${d.pname}
+                                          pkg ${d} ${d.pname} ${d.system}
                                         '')
           (attrValues logged')}
         mkdir $out/nix-support
@@ -66,7 +66,7 @@
       '';
     in
       {
-        hydraJobs = { 000-report-csv = report-csv; } // logged';
+        hydraJobs = { _000-report-csv = report-csv; } // logged';
 #        inherit logged;
 #        inherit pkgs;
 #        inherit logs;
