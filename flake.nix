@@ -47,16 +47,15 @@
       logged = sbclPackages.overrideScope'
         (self: super: mapAttrs (name: deriv: withBuildLog deriv) super);
       logged' = filterAttrs (name: value: isAttrs value && name != "facts") logged;
-      report = pkgs.runCommand "report" {} ''
+      report-csv = pkgs.runCommand "report-csv" {} ''
         set -x
         mkdir $out
         echo "package,failed,aborted" >> $out/report.csv
         function pkg() {
-          failed=0
-          aborted=0
-          [ -e $1/.LOG/failed ]  && failed=1
-          [ -e $1/.LOG/aborted ] && aborted=1
-          echo $2,failed,aborted >> $out/report.csv
+          status = "ok"
+          [ -e $1/.LOG/failed ]  && status="failed"
+          [ -e $1/.LOG/aborted ] && aborted="aborted"
+          echo $2,$status >> $out/report.csv
         }
         ${pkgs.lib.concatMapStrings (d: ''
                                           pkg ${d} ${d.pname}
@@ -67,7 +66,7 @@
       '';
     in
       {
-        hydraJobs = { _report = report; } // logged';
+        hydraJobs = { __report-csv = report-csv; } // logged';
 #        inherit logged;
 #        inherit pkgs;
 #        inherit logs;
