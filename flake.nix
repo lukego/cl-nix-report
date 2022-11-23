@@ -52,7 +52,7 @@
         mkdir $out
         echo "package,failed,aborted" >> $out/report.csv
         function pkg() {
-          status = "ok"
+          status="ok"
           [ -e $1/.LOG/failed ]  && status="failed"
           [ -e $1/.LOG/aborted ] && aborted="aborted"
           echo $2,$status >> $out/report.csv
