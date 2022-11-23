@@ -48,6 +48,7 @@
         (self: super: mapAttrs (name: deriv: withBuildLog deriv) super);
       logged' = filterAttrs (name: value: isAttrs value && name != "facts") logged;
       report = pkgs.runCommand "report" {} ''
+        set -x
         mkdir $out
         ${pkgs.lib.concatMapStrings (d: ''ln -s ${d} $out/'') (attrValues logged')}
       '';
