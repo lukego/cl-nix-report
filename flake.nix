@@ -50,7 +50,10 @@
       report = pkgs.runCommand "report" {} ''
         set -x
         mkdir $out
-        ${pkgs.lib.concatMapStrings (d: ''ln -s ${d} $out/'') (attrValues logged')}
+        ${pkgs.lib.concatMapStrings (d: ''
+                                          ln -s ${d} $out/
+                                        '')
+          (attrValues logged')}
       '';
     in
       {
