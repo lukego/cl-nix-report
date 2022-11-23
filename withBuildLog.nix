@@ -56,5 +56,10 @@ let
   # Update a derivation to produce the logs from the build process instead of
   # its normal output.
   withBuildLog = derivation:
-    derivation.overrideAttrs (o: { builder = logging-builder; meta.broken = false; });
+    derivation.overrideAttrs (o: { builder = logging-builder;
+                                   meta.logged = true;
+                                   meta.broken = false;
+                                   src = o.src.overrideAttrs (o': { configurePhase = "echo succeed on failure $successOnFailure";
+                                                                    succeedOnFailure = true; });
+                                 });
 in withBuildLog

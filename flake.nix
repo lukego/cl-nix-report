@@ -46,13 +46,14 @@
 
       logged = sbclPackages.overrideScope'
         (self: super: mapAttrs (name: deriv: withBuildLog deriv) super);
-      report = pkgs.runCommand "report" { logs = attrValues logs; } ''
+      logged' = filterAttrs (name: isAttrs) logged;
+      report = pkgs.runCommand "report" { logs = attrValues logged'; } ''
         #mkdir $out
         export > $out
       '';
     in
       {
-        hydraJobs = logged;
+        hydraJobs = { _report = report; } // logged';
 #        inherit logged;
 #        inherit pkgs;
 #        inherit logs;
