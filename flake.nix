@@ -50,7 +50,7 @@
       report-csv = pkgs.runCommand "report-csv" {} ''
         set -x
         mkdir $out
-        echo "package,failed,aborted" >> $out/report.csv
+        echo "package,status" >> $out/report.csv
         function pkg() {
           status="ok"
           [ -e $1/.LOG/failed ]  && status="failed"
