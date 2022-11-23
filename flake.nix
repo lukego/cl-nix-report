@@ -56,14 +56,14 @@
           aborted=0
           [ -e $1/.LOG/failed ]  && failed=1
           [ -e $1/.LOG/aborted ] && aborted=1
-          echo $1,failed,aborted >> $out/report.csv
+          echo $2,failed,aborted >> $out/report.csv
         }
         ${pkgs.lib.concatMapStrings (d: ''
-                                          pkg ${d}
+                                          pkg ${d} ${d.pname}
                                         '')
           (attrValues logged')}
-        mkdir $out/build-support
-        echo "file report $out/report.csv" >> $out/nix-support-hydra-build-products
+        mkdir $out/nix-support
+        echo "file report $out/report.csv" >> $out/nix-support/hydra-build-products
       '';
     in
       {
