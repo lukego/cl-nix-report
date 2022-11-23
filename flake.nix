@@ -66,7 +66,7 @@
       '';
     in
       {
-        hydraJobs = { __report-csv = report-csv; } // logged';
+        hydraJobs = { 000-report-csv = report-csv; } // logged';
 #        inherit logged;
 #        inherit pkgs;
 #        inherit logs;
