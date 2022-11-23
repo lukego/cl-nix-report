@@ -50,12 +50,12 @@
       report-csv = pkgs.runCommand "report-csv" {} ''
         set -x
         mkdir $out
-        echo "package,system,status" >> $out/report.csv
+        echo "package,system,lisp,status" >> $out/report.csv
         function pkg() {
           status="ok"
           [ -e $1/.LOG/failed ]  && status="failed"
           [ -e $1/.LOG/aborted ] && aborted="aborted"
-          echo $2,$3,$status >> $out/report.csv
+          echo $2,$3,sbcl,$status >> $out/report.csv
         }
         ${pkgs.lib.concatMapStrings (d: ''
                                           pkg ${d} ${d.pname} ${d.system}
