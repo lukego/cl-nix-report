@@ -36,14 +36,6 @@
       eligible = n: d: (isAttrs d) && (hasAttr "systems" d) && hasPrefix "g" n;
       eligiblePkgs = filterAttrs eligible (nix-cl.packages.${system}.sbcl.pkgs);
       sbclPackages = nix-cl.packages.${system}.sbcl.pkgs;
-      logs = sbclPackages.overrideScope' (self: super: {
-        mcclim-bezier = super.mcclim-bezier.overrideAttrs(o: { meta = { broken = false; }; });
-#flatPackages super
-        #super
-#mapAttrs (name: deriv: deriv.overrideAttrs(o: { meta = { broken = false; }; })) super
-      });
-#logs = mapAttrs (n: d: withBuildLog d) eligiblePkgs;
-
       logged = sbclPackages.overrideScope'
         (self: super: mapAttrs (name: deriv: withBuildLog deriv) super);
       logged' = filterAttrs (name: value: isAttrs value && name != "facts") logged;
@@ -67,11 +59,5 @@
     in
       {
         hydraJobs = { _000-report-csv = report-csv; } // logged';
-#        inherit logged;
-#        inherit pkgs;
-#        inherit logs;
-#        inherit sbclPackages;
-#        inherit withBuildLog;
-#packages.${system}.default = report;
       };
 }
