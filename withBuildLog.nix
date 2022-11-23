@@ -60,6 +60,7 @@ let
                                    meta.logged = true;
                                    meta.broken = false;
                                    src = o.src.overrideAttrs (o': { configurePhase = "echo succeed on failure $successOnFailure";
+                                                                    failureHook = "touch $out; echo THIS IS FINE; exit 0";
                                                                     succeedOnFailure = true; });
                                  });
 in withBuildLog
