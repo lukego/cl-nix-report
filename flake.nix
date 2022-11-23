@@ -50,10 +50,20 @@
       report = pkgs.runCommand "report" {} ''
         set -x
         mkdir $out
+        echo "package,failed,aborted" >> $out/report.csv
+        function pkg() {
+          failed=0
+          aborted=0
+          [ -e $1/.LOG/failed ]  && failed=1
+          [ -e $1/.LOG/aborted ] && aborted=1
+          echo $1,failed,aborted >> $out/report.csv
+        }
         ${pkgs.lib.concatMapStrings (d: ''
-                                          ln -fs ${d} $out/
+                                          pkg ${d}
                                         '')
           (attrValues logged')}
+        mkdir $out/build-support
+        echo "file report $out/report.csv" >> $out/nix-support-hydra-build-products
       '';
     in
       {
