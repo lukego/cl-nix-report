@@ -51,7 +51,7 @@
         set -x
         mkdir $out
         ${pkgs.lib.concatMapStrings (d: ''
-                                          ln -s ${d} $out/
+                                          ln -fs ${d} $out/
                                         '')
           (attrValues logged')}
       '';
