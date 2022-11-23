@@ -47,9 +47,9 @@
       logged = sbclPackages.overrideScope'
         (self: super: mapAttrs (name: deriv: withBuildLog deriv) super);
       logged' = filterAttrs (name: value: isAttrs value && name != "facts") logged;
-      report = pkgs.runCommand "report" { logs = attrValues logged'; } ''
-        #mkdir $out
-        export > $out
+      report = pkgs.runCommand "report" {} ''
+        mkdir $out
+        ${pkgs.lib.concatMapStrings (d: ''ln -s ${d} $out/'') (attrValues logged')}
       '';
     in
       {
