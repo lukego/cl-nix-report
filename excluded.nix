@@ -27,4 +27,11 @@
   facts-ecl-x86_64-linux                            = true;
   facts-sbcl-aarch64-linux                          = true;
   facts-sbcl-x86_64-linux                           = true;
+	cl-liballegro-nuklear-abcl-aarch64-linux          = true;
+  cl-tar-abcl-aarch64-linux                         = true;
+  facts-abcl-aarch64-linux                          = true;
+  facts-ecl-aarch64-linux                           = true;
+  nyxt-abcl-aarch64-linux                           = true;
+  nyxt-gtk-abcl-aarch64-linux                       = true;
+  nyxt-ubuntu-package-abcl-aarch64-linux            = true;
 }

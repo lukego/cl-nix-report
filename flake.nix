@@ -56,7 +56,7 @@
         function pkg() {
           status="ok"
           [ -e $1/.LOG/failed ]  && status="failed"
-          [ -e $1/.LOG/aborted ] && aborted="aborted"
+          [ -e $1/.LOG/aborted ] && status="aborted"
           echo $2,$3,$4,$5,$6,$status >> $out/report.csv
         }
         ${pkgs.lib.concatMapStrings (d: ''
@@ -66,9 +66,13 @@
         mkdir $out/nix-support
         echo "file report $out/report.csv" >> $out/nix-support/hydra-build-products
       '';
+      # Reporting
     in
       {
         inherit labelledPackagesFor labelPackages lispPackages;
         hydraJobs = { _000-report-csv = report-csv; } // lispPackages;
+        devShells.x86_64-linux.report = pkgs.mkShell {
+          buildInputs = with pkgs.rPackages; [ pkgs.R tidyverse ];
+        };
       };
 }
