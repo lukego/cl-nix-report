@@ -49,6 +49,9 @@
       lispPackages = filterAttrs (name: value: ! hasAttr name excluded)
         (foldr (a: b: a // b) {} (map labelledPackagesFor variants));
       #sbclPackages = nix-cl.packages.${system}.sbcl.pkgs;
+      #
+      # CSV table data from the build results.
+      #
       report-csv = pkgs.runCommand "report-csv" {} ''
         set -x
         mkdir $out
@@ -66,11 +69,37 @@
         mkdir $out/nix-support
         echo "file report $out/report.csv" >> $out/nix-support/hydra-build-products
       '';
+      #
+      # Just an ad-hoc R plot for now. Could be an org/Rmarkdown report.
+      #
+      summary-png = pkgs.runCommand "summary-png"
+        { buildInputs = with pkgs.rPackages; [ pkgs.R tidyverse ]; }
+        ''
+          Rscript - <<EOF
+          library(readr)
+          library(dplyr)
+          library(ggplot2)
+          data <- read_csv("${report-csv}/report.csv")
+          ggplot(data, aes(x=lisp, fill=status)) + geom_bar() + facet_grid(system~.)
+          ggsave("summary.png")
+          EOF
+
+          mkdir -p $out/nix-support
+          cp summary.png $out/
+          echo "file summary $out/report.png" >> $out/nix-support/hydra-build-products
+        '';
+      report = pkgs.runCommand "report" {} ''
+          mkdir -p $out/nix-support
+          cp ${report-csv}/*.* ${summary-png}/*.* $out/
+          cat ${report-csv }/nix-support/hydra-build-products \
+              ${summary-png}/nix-support/hydra-build-products \
+              > $out/nix-support/hydra-build-products
+      '';
       # Reporting
     in
       {
         inherit labelledPackagesFor labelPackages lispPackages;
-        hydraJobs = { _000-report-csv = report-csv; } // lispPackages;
+        hydraJobs = { _000-report = report; } // lispPackages;
         devShells.x86_64-linux.report = pkgs.mkShell {
           buildInputs = with pkgs.rPackages; [ pkgs.R tidyverse ];
         };
