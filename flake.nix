@@ -14,7 +14,7 @@
         { lisp = "abcl";  system = "x86_64-linux";  }
         { lisp = "ecl";   system = "x86_64-linux";  }
         { lisp = "sbcl";  system = "aarch64-linux";  }
-        { lisp = "clasp"; system = "aarch64-linux";  }
+        #{ lisp = "clasp"; system = "aarch64-linux";  }
         #{ lisp = "ccl";   system = "aarch64-linux";  }
         { lisp = "abcl";  system = "aarch64-linux";  }
         { lisp = "ecl";   system = "aarch64-linux";  }
