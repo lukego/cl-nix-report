@@ -59,14 +59,31 @@
           mkdir -p $out/nix-support
 
           #
+          # Aggregated logs tarball
+          #
+          mkdir lisp-build-logs
+          ${pkgs.lib.concatMapStrings (d:
+            ''
+              #cp ${d}/.LOG/build.log lisp-build-logs/$(cat ${d}/pname).log
+              [ -f ${d}/.LOG/build.log ] && cat ${d}/.LOG/build.log >> $out/lisp-build-logs.txt
+            '')
+            (attrValues lispPackages)}
+          #tar czf $out/lisp-build-logs.tar.gz
+          gzip $out/lisp-build-logs.txt
+          echo "file logs $out/lisp-build-logs.txt.gz" >> $out/nix-support/hydra-build-products
+
+          #
           # CSV
           #
-          echo "package,version,system,lisp,lisp_version,status" >> report.csv
+          echo "package,version,system,lisp,lisp_version,status,failed_deps" >> report.csv
           function pkg() {
             status="ok"
             [ -e $1/.LOG/failed ]  && status="failed"
-            [ -e $1/.LOG/aborted ] && status="aborted"
-            echo $2,$3,$4,$5,$6,$status >> report.csv
+            if [ -e $1/.LOG/aborted ]; then
+              status="aborted"
+              failed_deps=$(cat $1/.LOG/aborted | sed -e 's/^FAILED-DEPENDENCIES: //')
+            fi
+            echo $2,$3,$4,$5,$6,$status,$failed_deps >> report.csv
           }
           ${pkgs.lib.concatMapStrings (d: ''
                                             pkg ${d} ${d.pname} ${d.version} ${d.system} ${d.pkg.pname} ${d.pkg.version}
