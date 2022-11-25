@@ -90,15 +90,16 @@
         "flake-utils": "flake-utils_2"
       },
       "locked": {
-        "lastModified": 1669057410,
-        "narHash": "sha256-GNC5qSdOfh27oOHQxU3G91jaxh37tA+MjLaBgn5m1s8=",
-        "owner": "uthar",
+        "lastModified": 1669385661,
+        "narHash": "sha256-5IfutpiefoJuKZFxuQ9lWzSOipnLZROfrMAPTBX+OnA=",
+        "owner": "lukego",
         "repo": "nix-cl",
-        "rev": "aee754f47672fe4ade6c9da1cbde2a31e3a08e0f",
+        "rev": "b4877a5b60404c5ba037599fcbcc80559cdc6f01",
         "type": "github"
       },
       "original": {
-        "owner": "uthar",
+        "owner": "lukego",
+        "ref": "more-log",
         "repo": "nix-cl",
         "type": "github"
       }
@@ -151,11 +152,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1669076005,
-        "narHash": "sha256-uzMji2q9Pk3jUH+e5nEFtoOZCP4VV1PDRJRLVmriY0M=",
+        "lastModified": 1669261230,
+        "narHash": "sha256-AjddxRPd5y5jge77281P3O8+Cnafj842Xg59rwV4x+0=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "69335c46c48a73f291d5c6f332fb9fe8b8e22b30",
+        "rev": "8e8b5f3b1e899bf5d250279578c0283705b8cdb4",
         "type": "github"
       },
       "original": {

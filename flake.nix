@@ -2,7 +2,7 @@
   description = "A very basic flake";
 
   inputs.nixpkgs.url = "nixpkgs";
-  inputs.nix-cl.url = "github:uthar/nix-cl";
+  inputs.nix-cl.url = "github:lukego/nix-cl/more-log";
 
   outputs = { self, nixpkgs, nix-cl }:
     let
