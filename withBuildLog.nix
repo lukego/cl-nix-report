@@ -21,11 +21,14 @@ let
       function finish {
         [ -d $out ] || mkdir $out
         cp -r .LOG $out/
+        [ -d $out/nix-support ] || mkdir -p $out/nix-support
+        echo "file log $out/.LOG/build.log" >> $out/nix-support/hydra-build-products
       }
       trap finish EXIT
 
       # Directory to accumulate logging state.
       mkdir .LOG
+      echo $pname > .LOG/pname
 
       # Print the name of all failing dependencies and, if there are any, abort
       # the build.
@@ -33,7 +36,7 @@ let
       for mod in $lispLibs; do
         echo "mod = $mod"
         [ -e $mod/.LOG ] && ls $mod/.LOG
-        [ -e $mod/.LOG/failed ] || [ -e $mod/.LOG/aborted ] && failed="$mod $failed"
+        [ -e $mod/.LOG/failed ] || [ -e $mod/.LOG/aborted ] && failed="$(cat $mod/.LOG/pname) $failed"
       done
       if [ -n "$failed" ]; then
         echo "FAILED-DEPENDENCIES: $failed" | tee .LOG/aborted
