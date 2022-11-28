@@ -50,9 +50,11 @@
         concatMapAttrs (name: drv:
           let system = drv.system;
               jumbo-deps = pkgs.callPackage ./jumbo-deps.nix nixpkgs.legacyPackages.${system}; in
-          { name = drv;
-            "${name}-jumbo" = (drv.overrideAttrs (o: { nativeBuildInputs = jumbo-deps;
-                                                       variant = "jumbo"; }));
+            { "${name}-base"  = drv;
+              "${name}-jumbo" = (drv.overrideAttrs (o: { propagatedBuildInputs = o.propagatedBuildInputs ++ jumbo-deps;
+                                                         nativeBuildInputs = jumbo-deps;
+                                                         nativeLibs = jumbo-deps;
+                                                         variant = "jumbo"; }));
           }) lisp-pkgs;
       lispPackages =
         alsoJumbo (filterAttrs (name: value: ! hasAttr name excluded)
@@ -92,11 +94,10 @@
               status="aborted"
               failed_deps=$(cat $1/.LOG/aborted | sed -e 's/^FAILED-DEPENDENCIES: //')
             fi
-            [ -z "$variant" ] && variant="base"
-            echo $2,$3,$4,$5,$6,$status,$failed_deps,$variant >> report.csv
+            echo $2,$3,$4,$5,$6,$status,$failed_deps,$7 >> report.csv
           }
           ${pkgs.lib.concatMapStrings (d: ''
-                                            pkg ${d} ${d.pname} ${d.version} ${d.system} ${d.pkg.pname} ${d.pkg.version}
+                                            pkg ${d} ${d.pname} ${d.version} ${d.system} ${d.pkg.pname} ${d.pkg.version} ${if d?variant then d.variant else "base"}
                                           '')
             (attrValues lispPackages)}
           cp report.csv $out/
@@ -110,7 +111,7 @@
           library(dplyr)
           library(ggplot2)
           data <- read_csv("report.csv")
-          ggplot(data, aes(x=lisp, fill=status)) + geom_bar() + facet_grid(system~.)
+          ggplot(data, aes(x=lisp, fill=status)) + geom_bar() + facet_grid(~variant)
           ggsave("summary.png")
           EOF
           cp summary.png $out/
