@@ -46,18 +46,19 @@
         labelPackages {inherit lisp system;}
           (preprocess system nix-cl.packages.${system}.${lisp}.pkgs);
       excluded = import ./excluded.nix;
+      included = (name: true); #(name: hasPrefix "c" name);
       alsoJumbo = lisp-pkgs:
         concatMapAttrs (name: drv:
           let system = drv.system;
               jumbo-deps = pkgs.callPackage ./jumbo-deps.nix nixpkgs.legacyPackages.${system}; in
             { "${name}-base"  = drv;
-              "${name}-jumbo" = (drv.overrideAttrs (o: { propagatedBuildInputs = o.propagatedBuildInputs ++ jumbo-deps;
-                                                         nativeBuildInputs = jumbo-deps;
-                                                         nativeLibs = jumbo-deps;
+              "${name}-jumbo" = (drv.overrideAttrs (o: { propagatedBuildInputs = o.propagatedBuildInputs ++ jumbo-deps.programs ++ jumbo-deps.libraries;
+                                                         nativeBuildInputs = jumbo-deps.programs;
+                                                         nativeLibs = jumbo-deps.libraries;
                                                          variant = "jumbo"; }));
           }) lisp-pkgs;
       lispPackages =
-        alsoJumbo (filterAttrs (name: value: ! hasAttr name excluded)
+        alsoJumbo (filterAttrs (name: value: included name && ! hasAttr name excluded)
           (foldr (a: b: a // b) {} (map labelledPackagesFor variants)));
       #sbclPackages = nix-cl.packages.${system}.sbcl.pkgs;
       #
