@@ -24,9 +24,9 @@
       # {string()->derivation()}
       pkgs = nixpkgs.legacyPackages.${reportSystem};
       inherit (builtins) isAttrs hasAttr attrValues;
-      inherit (pkgs.lib) filterAttrs mapAttrs mapAttrs' concatMap foldr;
+      inherit (pkgs.lib) filterAttrs mapAttrs mapAttrs' concatMap concatMapAttrs foldr;
       inherit (pkgs.lib.strings) hasPrefix;
-      # {string()->derivation()} -> {string()->derivation()}
+      # string() -> {string()->derivation()} -> {string()->derivation()}
       preprocess = system: lisp-pkgs:
         # match derivation's system type
         let withBuildLog = pkgs.callPackage ./withBuildLog.nix nixpkgs.legacyPackages.${system}; in
@@ -46,8 +46,17 @@
         labelPackages {inherit lisp system;}
           (preprocess system nix-cl.packages.${system}.${lisp}.pkgs);
       excluded = import ./excluded.nix;
-      lispPackages = filterAttrs (name: value: ! hasAttr name excluded)
-        (foldr (a: b: a // b) {} (map labelledPackagesFor variants));
+      alsoJumbo = lisp-pkgs:
+        concatMapAttrs (name: drv:
+          let system = drv.system;
+              jumbo-deps = pkgs.callPackage ./jumbo-deps.nix nixpkgs.legacyPackages.${system}; in
+          { name = drv;
+            "${name}-jumbo" = (drv.overrideAttrs (o: { nativeBuildInputs = jumbo-deps;
+                                                       variant = "jumbo"; }));
+          }) lisp-pkgs;
+      lispPackages =
+        alsoJumbo (filterAttrs (name: value: ! hasAttr name excluded)
+          (foldr (a: b: a // b) {} (map labelledPackagesFor variants)));
       #sbclPackages = nix-cl.packages.${system}.sbcl.pkgs;
       #
       # CSV table data from the build results.
@@ -75,7 +84,7 @@
           #
           # CSV
           #
-          echo "package,version,system,lisp,lisp_version,status,failed_deps" >> report.csv
+          echo "package,version,system,lisp,lisp_version,status,failed_deps,variant" >> report.csv
           function pkg() {
             status="ok"
             [ -e $1/.LOG/failed ]  && status="failed"
@@ -83,7 +92,8 @@
               status="aborted"
               failed_deps=$(cat $1/.LOG/aborted | sed -e 's/^FAILED-DEPENDENCIES: //')
             fi
-            echo $2,$3,$4,$5,$6,$status,$failed_deps >> report.csv
+            [ -z "$variant" ] && variant="base"
+            echo $2,$3,$4,$5,$6,$status,$failed_deps,$variant >> report.csv
           }
           ${pkgs.lib.concatMapStrings (d: ''
                                             pkg ${d} ${d.pname} ${d.version} ${d.system} ${d.pkg.pname} ${d.pkg.version}
