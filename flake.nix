@@ -52,10 +52,10 @@
           let system = drv.system;
               jumbo-deps = pkgs.callPackage ./jumbo-deps.nix nixpkgs.legacyPackages.${system}; in
             { "${name}-base"  = drv;
-              "${name}-jumbo" = (drv.overrideAttrs (o: { propagatedBuildInputs = o.propagatedBuildInputs ++ jumbo-deps.programs ++ jumbo-deps.libraries;
-                                                         nativeBuildInputs = jumbo-deps.programs;
-                                                         nativeLibs = jumbo-deps.libraries;
-                                                         variant = "jumbo"; }));
+              "${name}-jumbo" = (drv.overrideLispAttrs (o: { propagatedBuildInputs = o.propagatedBuildInputs ++ jumbo-deps.programs ++ jumbo-deps.libraries;
+                                                             nativeBuildInputs = jumbo-deps.programs;
+                                                             nativeLibs = jumbo-deps.libraries;
+                                                             variant = "jumbo"; }));
           }) lisp-pkgs;
       lispPackages =
         alsoJumbo (filterAttrs (name: value: included name && ! hasAttr name excluded)
