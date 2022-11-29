@@ -46,7 +46,7 @@
         labelPackages {inherit lisp system;}
           (preprocess system nix-cl.packages.${system}.${lisp}.pkgs);
       excluded = import ./excluded.nix;
-      included = (name: hasPrefix "ca" name);
+      included = (name: hasPrefix "c" name);
       alsoJumbo = lisp-pkgs:
         concatMapAttrs (name: drv:
           let system = drv.system;
