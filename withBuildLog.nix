@@ -1,4 +1,4 @@
-{ pkgs, writeScript, stdenv, coreutils, strace, ... }:
+{ pkgs, writeScript, stdenv, coreutils, strace, gzip, ... }:
 
 let
   # Custom builder that allows builds to safely fail and collects logs from the
@@ -16,14 +16,15 @@ let
   logging-builder = writeScript "logging-builder.sh"
     ''
       #!${stdenv.shell}
-      PATH=$PATH:${coreutils}/bin:${strace}/bin
+      PATH=$PATH:${coreutils}/bin:${strace}/bin:${gzip}/bin
       # Always add logs to derivation output
       function finish {
         [ -d $out ] || mkdir $out
         cp -r .LOG $out/
         [ -d $out/nix-support ] || mkdir -p $out/nix-support
         echo "file log $out/.LOG/build.log" >> $out/nix-support/hydra-build-products
-        echo "file strace $out/.LOG/strace.log" >> $out/nix-support/hydra-build-products
+        [ -f $out/.LOG/strace.log ] && gzip $out/.LOG/strace.log
+        echo "file strace $out/.LOG/strace.log.gz" >> $out/nix-support/hydra-build-products
       }
       trap finish EXIT
 
