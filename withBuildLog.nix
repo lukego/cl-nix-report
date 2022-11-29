@@ -61,11 +61,11 @@ let
   # Update a derivation to produce the logs from the build process instead of
   # its normal output.
   withBuildLog = derivation:
-    derivation.overrideAttrs (o: { builder = logging-builder;
-                                   meta.logged = true;
-                                   meta.broken = false;
-                                   src = o.src.overrideAttrs (o': { configurePhase = "echo succeed on failure $successOnFailure";
-                                                                    failureHook = "touch $out; echo THIS IS FINE; exit 0";
-                                                                    succeedOnFailure = true; });
-                                 });
+    derivation.overrideLispAttrs (o: { builder = logging-builder;
+                                       meta.logged = true;
+                                       meta.broken = false;
+                                       src = o.src.overrideAttrs (o': { configurePhase = "echo succeed on failure $successOnFailure";
+                                                                        failureHook = "touch $out; echo THIS IS FINE; exit 0";
+                                                                        succeedOnFailure = true; });
+                                     });
 in withBuildLog

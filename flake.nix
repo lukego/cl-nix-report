@@ -52,7 +52,7 @@
           let system = drv.system;
               jumbo-deps = pkgs.callPackage ./jumbo-deps.nix nixpkgs.legacyPackages.${system}; in
             { "${name}-base"  = drv;
-              "${name}-jumbo" = (drv.overrideLispAttrs (o: { propagatedBuildInputs = o.propagatedBuildInputs ++ jumbo-deps.programs ++ jumbo-deps.libraries;
+              "${name}-jumbo" = (drv.overrideLispAttrs (o: { #propagatedBuildInputs = o.propagatedBuildInputs ++ jumbo-deps.programs ++ jumbo-deps.libraries;
                                                              nativeBuildInputs = jumbo-deps.programs;
                                                              nativeLibs = jumbo-deps.libraries;
                                                              variant = "jumbo"; }));
@@ -121,7 +121,7 @@
         '';
     in
       {
-        inherit labelledPackagesFor labelPackages lispPackages;
+        inherit labelledPackagesFor labelPackages lispPackages preprocess;
         hydraJobs = { _000-report = report; } // lispPackages;
         devShells.x86_64-linux.report = pkgs.mkShell {
           buildInputs = with pkgs.rPackages; [ pkgs.R tidyverse ];
