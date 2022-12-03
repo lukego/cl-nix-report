@@ -1,0 +1,208 @@
+      1 /build/source/unix_sockets
+      1 /nix/store/dksmrn06p4h0jq7s0zh99dnfpsq04w7b-source/bin/lzma-lin64
+      1 /nix/store/dksmrn06p4h0jq7s0zh99dnfpsq04w7b-source/bin/lzma-lin64
+      1 /usr/lib/aarch64-linux-gnu/libopenblas
+      1 \\/nix\\/store\\/zmk8pakjsipj6ayxzf0rjjr3kx8mwy0v-source\\/scipy-cephes/libmd
+      1 libhoedown
+      1 libhoedown
+      1 libncursesw
+ncurses
+      1 librenderdoc
+      1 librenderdoc
+renderdoc
+      2 libGeoIP
+      2 libGeoIP
+geoip
+      2 libRmath
+      2 libRmath
+      2 libSOIL
+      2 libX11
+      2 libX11
+xorg.libX11
+      2 libcerf
+      2 libcerf
+libcerf
+      2 libclBLAS
+      2 libclBLAS
+libblas
+      2 libdrm
+      2 libdrm
+libdrm
+      2 libfann
+      2 libfann
+libfann
+      2 libfarmhash
+      2 libfarmhash
+libfarmhash
+      2 libfond
+# shinmera's libfond
+      2 libglpk
+      2 libglpk
+glpk
+      2 libgslcblas
+      2 libgslcblas
+gsl
+      2 libhoedown
+      2 libiio
+      2 libiio
+libiio
+      2 libkyotocabinet
+      2 libkyotocabinet
+tokyocabinet
+      2 libleveldb
+      2 libleveldb
+leveldb
+      2 liblmdb
+lmdb
+      2 libmecab
+      2 libmecab
+      2 libncurses
+ncurses
+      2 libnet
+      2 libnet
+libnet
+      2 libnlopt
+      2 libnlopt
+nlopt
+      2 libodbc
+      2 libodbc
+unixODBC
+      2 libpcap
+      2 libpcap
+libpcap
+      2 libplplotd
+      2 libplplotd
+plplot
+      2 libsecp256k1
+secp256k1
+      2 libsophia
+      2 libsophia
+# sophia?
+      2 libssl
+openssl
+      2 libtcod
+      2 libtcod
+libtcod
+      2 libtokyocabinet
+      2 libtokyocabinet
+      2 libwayland-server
+      2 libwayland-server
+      2 libz
+      zlib
+      3 /git/suave/cl-tidy/tidylib/lib/libtidy
+alsa-lib
+      3 /usr/lib/x86_64-linux-gnu/libgbm
+mesa
+      3 /usr/lib/x86_64-linux-gnu/libxkbcommon
+libxkbcommon
+      3 /usr/local/lib/libasound
+      3 /usr/local/lib/libevent_core
+libevent
+    /git/suave/cl-tidy/tidylib/lib/libtidy
+    /nix/store/zmk8pakjsipj6ayxzf0rjjr3kx8mwy0v-source/scipy-cephes/libmd
+    /usr/lib/libasound
+    /usr/lib/libevent_core
+    /usr/lib/libfcgi
+fcgi
+    /usr/lib/libmpg123
+mpg123
+    /usr/lib/x86_64-linux-gnu/libgbm
+    /usr/lib/x86_64-linux-gnu/libxkbcommon
+    /usr/lib64/libgbm
+    /usr/lib64/libinput
+libinput
+    /usr/lib64/libxkbcommon
+libxkbcommon
+    /usr/local/lib/libasound
+    /usr/local/lib/libevent_core
+    /usr/local/lib/libmpg123
+    /usr/local/lib/libmpg123
+    /usr/local/lib/libtidy
+    /usr/local/lib/libzyre
+zyre
+    k8055
+    libGLU
+libGL
+    libIL
+    libOpenCL
+    libOpenCL
+rocm-opencl-runtime
+    libSDL-1.2
+SDL
+    libSDL_gfx
+SDL_gfx # SDL2_gfx?
+    libSDL_image
+SDL_image
+    libSDL_mixer-1.2
+    libblas
+    libclSPARSE
+    libcuda64
+nvidia-x11 # or opengl-drivers
+    libev
+libev
+    libevent_core
+    libfbclient
+    libfcgi
+    libflac
+flac
+    libfreeimage
+freeimage
+    libgcrypt
+libgcrypt
+    libgeos_c
+geos
+    libgvc
+graphviz
+      libhdf5_serial
+    libhoedown
+    liblinear
+liblinear
+    liblz
+lzlib
+    libmonitors
+# ?
+    libmpg123
+    libncursesw
+    libopenal
+openal
+    libout123
+# mgp123
+    libpixman-1
+pixman
+    libportaudio
+portaudio
+    libpuzzle
+# not in nixpkgs
+    librenderdoc
+    librrd
+rrdtool
+    libsane
+sane-backends
+    libsecp256k1
+    libslp
+openslp
+    libsnappy
+snappy
+    libssl
+openssl
+    libsvm
+libsvm
+    libsybdb
+# ?
+    libtermbox
+termbox
+      libtesseract
+
+    libtesseract
+    libtesseract
+    libtesseract.3
+tesseract3
+      libvulkan
+# ?
+    libzmq
+
+libzstd
+    lin64-libk8055
+    lin64-libmonitors
+    lin64-libout123
+    lin64-libsoloud

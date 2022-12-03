@@ -1,0 +1,14 @@
+---
+title: "Diamond sizes"
+date: 2016-08-25
+output: html_document
+---
+
+Here is an automatically generated report about Lisp packages in nix-cl.
+
+```{r}
+library(readr)
+library(ggplot2)d
+data = read_csv("report.csv")
+ggplot(data, aes(fill = status)) + geom_bar(position="stack")
+```

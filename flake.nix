@@ -118,9 +118,18 @@
           data <- read_csv("report.csv")
           ggplot(data, aes(x=lisp, fill=status)) + geom_bar() + facet_grid(~variant)
           ggsave("summary.png")
+
+          ggplot(filter(data, !is.na(reason)), aes(x=variant, fill=variant)) +
+            geom_bar() +
+            facet_wrap(~reason) +
+            scale_x_discrete(guide = guide_axis(angle = 90)) +
+            theme(strip.text = element_text(size = 3))
+          ggsave("error-variant.png")
           EOF
           cp summary.png $out/
           echo "file summary $out/summary.png" >> $out/nix-support/hydra-build-products
+          cp error-variant.png $out/
+          echo "file errors $out/error-variant.png" >> $out/nix-support/hydra-build-products
 
         '';
     in
