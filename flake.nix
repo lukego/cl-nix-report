@@ -87,15 +87,19 @@
           #
           # CSV
           #
-          echo "package,version,system,lisp,lisp_version,status,failed_deps,variant" >> report.csv
+          echo "package,version,system,lisp,lisp_version,status,failed_deps,variant,reason" >> report.csv
           function pkg() {
             status="ok"
+            reason=""
             [ -e $1/.LOG/failed ]  && status="failed"
             if [ -e $1/.LOG/aborted ]; then
               status="aborted"
               failed_deps=$(cat $1/.LOG/aborted | sed -e 's/^FAILED-DEPENDENCIES: //')
             fi
-            echo $2,$3,$4,$5,$6,$status,$failed_deps,$7 >> report.csv
+            if [ -f $1/.LOG/build.log ]; then
+              reason=$(awk '/^BUILD FAILED/ { print $3  }' < $1/.LOG/build.log)
+            fi
+            echo $2,$3,$4,$5,$6,$status,$failed_deps,$7,$reason >> report.csv
           }
           ${pkgs.lib.concatMapStrings (d: ''
                                             pkg ${d} ${d.pname} ${d.version} ${d.system} ${d.pkg.pname} ${d.pkg.version} ${if d?variant then d.variant else "base"}
