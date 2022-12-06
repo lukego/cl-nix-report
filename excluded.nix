@@ -42,4 +42,13 @@
   type-i_dot_test-clasp-x86_64-linux                 = true;
   type-i_dot_test-ecl-aarch64-linux                  = true;
   type-i_dot_test-ecl-x86_64-linux                   = true;
+  # mac
+  cl-ode-sbcl-aarch64-darwin                         = true;
+  nyxt-gtk-sbcl-aarch64-darwin                       = true;
+  cl-gtk4_dot_webkit2-sbcl-aarch64-darwin            = true;
+  cl-liballegro-sbcl-aarch64-darwin                  = true;
+  nyxt-ubuntu-package-sbcl-aarch64-darwin            = true;
+  cl-webkit2-sbcl-aarch64-darwin                     = true;
+  cl-liballegro-nuklear-sbcl-aarch64-darwin          = true;
+  nyxt-sbcl-aarch64-darwin                           = true;
 }
