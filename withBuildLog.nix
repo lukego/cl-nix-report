@@ -16,7 +16,7 @@ let
   logging-builder = writeScript "logging-builder.sh"
     ''
       #!${stdenv.shell}
-      PATH=$PATH:${coreutils}/bin:${strace}/bin:${gzip}/bin
+      PATH=$PATH:${coreutils}/bin:${gzip}/bin
       # Always add logs to derivation output
       function finish {
         [ -d $out ] || mkdir $out
@@ -49,7 +49,7 @@ let
       echo "START: building $out" | tee .LOG/build.log
       set +e
       set -o pipefail
-      strace -f -o .LOG/strace.log \
+      #strace -f -o .LOG/strace.log \
         ${stdenv.shell} -c 'set -e; source $stdenv/setup; genericBuild' 2>&1 \
         | tee -a .LOG/build.log
       status=$?
