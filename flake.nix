@@ -9,6 +9,8 @@
       # [{lisp=string(), system=string()}]
       variants = [
         { lisp = "sbcl";  system = "x86_64-linux";  }
+        { lisp = "sbcl";  system = "aarch64-linux";  }
+        { lisp = "sbcl";  system = "aarch64-darwin";  }
 #        { lisp = "clasp"; system = "x86_64-linux";  }
 #        { lisp = "ccl";   system = "x86_64-linux";  }
 #        { lisp = "abcl";  system = "x86_64-linux";  }
@@ -58,8 +60,9 @@
                                                              variant = "jumbo"; }));
           }) lisp-pkgs;
       lispPackages =
-        alsoJumbo (filterAttrs (name: value: included name && ! hasAttr name excluded)
-          (foldr (a: b: a // b) {} (map labelledPackagesFor variants)));
+        #alsoJumbo
+          (filterAttrs (name: value: included name && ! hasAttr name excluded)
+            (foldr (a: b: a // b) {} (map labelledPackagesFor variants)));
       #sbclPackages = nix-cl.packages.${system}.sbcl.pkgs;
       #
       # CSV table data from the build results.
