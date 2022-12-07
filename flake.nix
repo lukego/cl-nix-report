@@ -9,6 +9,7 @@
       # [{lisp=string(), system=string()}]
       variants = [
         { lisp = "sbcl";  system = "x86_64-linux";  }
+        { lisp = "sbcl";  system = "x86_64-darwin";  }
         { lisp = "sbcl";  system = "aarch64-linux";  }
         { lisp = "sbcl";  system = "aarch64-darwin";  }
 #        { lisp = "clasp"; system = "x86_64-linux";  }
