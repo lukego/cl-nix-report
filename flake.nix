@@ -13,10 +13,10 @@
         { lisp = "sbcl";  system = "aarch64-linux";  }
         { lisp = "sbcl";  system = "aarch64-darwin"; }
 
-        { lisp = "clasp"; system = "x86_64-linux";   }
-        { lisp = "clasp"; system = "x86_64-darwin";  }
-        { lisp = "clasp"; system = "aarch64-linux";  }
-        { lisp = "clasp"; system = "aarch64-darwin"; }
+#        { lisp = "clasp"; system = "x86_64-linux";   }
+#        { lisp = "clasp"; system = "x86_64-darwin";  }
+#        { lisp = "clasp"; system = "aarch64-linux";  }
+#        { lisp = "clasp"; system = "aarch64-darwin"; }
 
 #        { lisp = "sbcl";  system = "i686-linux";  }
 #        { lisp = "sbcl";  system = "armv7l-linux";  }
