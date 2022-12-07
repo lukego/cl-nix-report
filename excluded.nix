@@ -20,6 +20,8 @@
   facts-ecl-x86_64-linux                             = true;
   facts-sbcl-aarch64-linux                           = true;
   facts-sbcl-x86_64-linux                            = true;
+  facts-sbcl-aarch64-darwin                          = true;
+  facts-sbcl-x86_64-darwin                           = true;
   jwacs-ecl-aarch64-linux                            = true;
   jwacs-tests-ecl-aarch64-linux                      = true;
   marshal-tests-clasp-x86_64-linux                   = true;
