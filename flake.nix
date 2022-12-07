@@ -70,7 +70,7 @@
           }) lisp-pkgs;
       lispPackages =
         #alsoJumbo
-        (filterAttrs (name: value: included name) # && ! hasAttr name excluded)
+        (filterAttrs (name: value: included name && ! hasAttr name excluded)
             (foldr (a: b: a // b) {} (map labelledPackagesFor variants)));
       #sbclPackages = nix-cl.packages.${system}.sbcl.pkgs;
       #
