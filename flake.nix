@@ -8,15 +8,15 @@
     let
       # [{lisp=string(), system=string()}]
       variants = [
-        { lisp = "sbcl";  system = "x86_64-linux";  }
+        { lisp = "sbcl";  system = "x86_64-linux";   }
         { lisp = "sbcl";  system = "x86_64-darwin";  }
         { lisp = "sbcl";  system = "aarch64-linux";  }
-        { lisp = "sbcl";  system = "aarch64-darwin";  }
+        { lisp = "sbcl";  system = "aarch64-darwin"; }
 
-        { lisp = "clasp";  system = "x86_64-linux";  }
-        { lisp = "clasp";  system = "x86_64-darwin";  }
-        { lisp = "clasp";  system = "aarch64-linux";  }
-        { lisp = "clasp";  system = "aarch64-darwin";  }
+        { lisp = "clasp"; system = "x86_64-linux";   }
+        { lisp = "clasp"; system = "x86_64-darwin";  }
+        { lisp = "clasp"; system = "aarch64-linux";  }
+        { lisp = "clasp"; system = "aarch64-darwin"; }
 
 #        { lisp = "sbcl";  system = "i686-linux";  }
 #        { lisp = "sbcl";  system = "armv7l-linux";  }
@@ -70,7 +70,7 @@
           }) lisp-pkgs;
       lispPackages =
         #alsoJumbo
-          (filterAttrs (name: value: included name && ! hasAttr name excluded)
+        (filterAttrs (name: value: included name) # && ! hasAttr name excluded)
             (foldr (a: b: a // b) {} (map labelledPackagesFor variants)));
       #sbclPackages = nix-cl.packages.${system}.sbcl.pkgs;
       #
