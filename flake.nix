@@ -128,10 +128,10 @@
           library(dplyr)
           library(ggplot2)
           data <- read_csv("report.csv")
-          ggplot(data, aes(x=lisp, fill=status)) + geom_bar() + facet_grid(~variant)
+          ggplot(data, aes(x=lisp, fill=status)) + geom_bar() + facet_grid(~system)
           ggsave("summary.png")
 
-          ggplot(filter(data, !is.na(reason)), aes(x=variant, fill=variant)) +
+          ggplot(filter(data, !is.na(reason)), aes(x=lisp, fill=system)) +
             geom_bar() +
             facet_wrap(~reason) +
             scale_x_discrete(guide = guide_axis(angle = 90)) +
