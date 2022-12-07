@@ -10,10 +10,16 @@
       variants = [
         { lisp = "sbcl";  system = "x86_64-linux";  }
         { lisp = "sbcl";  system = "x86_64-darwin";  }
-#        { lisp = "sbcl";  system = "i686-linux";  }
         { lisp = "sbcl";  system = "aarch64-linux";  }
-#        { lisp = "sbcl";  system = "armv7l-linux";  }
         { lisp = "sbcl";  system = "aarch64-darwin";  }
+
+        { lisp = "clasp";  system = "x86_64-linux";  }
+        { lisp = "clasp";  system = "x86_64-darwin";  }
+        { lisp = "clasp";  system = "aarch64-linux";  }
+        { lisp = "clasp";  system = "aarch64-darwin";  }
+
+#        { lisp = "sbcl";  system = "i686-linux";  }
+#        { lisp = "sbcl";  system = "armv7l-linux";  }
 #        { lisp = "clasp"; system = "x86_64-linux";  }
 #        { lisp = "ccl";   system = "x86_64-linux";  }
 #        { lisp = "abcl";  system = "x86_64-linux";  }
