@@ -51,4 +51,12 @@
   cl-webkit2-sbcl-aarch64-darwin                     = true;
   cl-liballegro-nuklear-sbcl-aarch64-darwin          = true;
   nyxt-sbcl-aarch64-darwin                           = true;
+  cl-ode-sbcl-x86_64-darwin                          = true;
+  nyxt-sbcl-x86_64-darwin                            = true;
+  cl-webkit2-sbcl-x86_64-darwin                      = true;
+  nyxt-ubuntu-package-sbcl-x86_64-darwin             = true;
+  cl-gtk4_dot_webkit2-sbcl-x86_64-darwin             = true;
+  cl-liballegro-nuklear-sbcl-x86_64-darwin           = true;
+  cl-liballegro-sbcl-x86_64-darwin                   = true;
+  nyxt-gtk-sbcl-x86_64-darwin                        = true;
 }
