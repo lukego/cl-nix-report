@@ -17,18 +17,6 @@
 #        { lisp = "clasp"; system = "x86_64-darwin";  }
 #        { lisp = "clasp"; system = "aarch64-linux";  }
 #        { lisp = "clasp"; system = "aarch64-darwin"; }
-
-#        { lisp = "sbcl";  system = "i686-linux";  }
-#        { lisp = "sbcl";  system = "armv7l-linux";  }
-#        { lisp = "clasp"; system = "x86_64-linux";  }
-#        { lisp = "ccl";   system = "x86_64-linux";  }
-#        { lisp = "abcl";  system = "x86_64-linux";  }
-#        { lisp = "ecl";   system = "x86_64-linux";  }
-#        { lisp = "sbcl";  system = "aarch64-linux";  }
-        #{ lisp = "clasp"; system = "aarch64-linux";  }
-        #{ lisp = "ccl";   system = "aarch64-linux";  }
-#        { lisp = "abcl";  system = "aarch64-linux";  }
-#        { lisp = "ecl";   system = "aarch64-linux";  }
       ];
       # derivation() -> derivation()
       reportSystem = "x86_64-linux";
@@ -62,15 +50,15 @@
         concatMapAttrs (name: drv:
           let system = drv.system;
               jumbo-deps = pkgs.callPackage ./jumbo-deps.nix nixpkgs.legacyPackages.${system}; in
-            { "${name}-base"  = drv;
+            { #"${name}-base"  = drv;
               "${name}-jumbo" = (drv.overrideLispAttrs (o: { #propagatedBuildInputs = o.propagatedBuildInputs ++ jumbo-deps.programs ++ jumbo-deps.libraries;
                                                              nativeBuildInputs = jumbo-deps.programs;
                                                              nativeLibs = jumbo-deps.libraries;
                                                              variant = "jumbo"; }));
           }) lisp-pkgs;
       lispPackages =
-        #alsoJumbo
-        (filterAttrs (name: value: included name && ! hasAttr name excluded)
+        alsoJumbo
+          (filterAttrs (name: value: included name && ! hasAttr name excluded)
             (foldr (a: b: a // b) {} (map labelledPackagesFor variants)));
       #sbclPackages = nix-cl.packages.${system}.sbcl.pkgs;
       #
