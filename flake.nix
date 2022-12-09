@@ -22,7 +22,7 @@
       reportSystem = "x86_64-linux";
       # {string()->derivation()}
       pkgs = nixpkgs.legacyPackages.${reportSystem};
-      inherit (builtins) isAttrs hasAttr attrValues listToAttrs;
+      inherit (builtins) isAttrs hasAttr attrValues listToAttrs filter;
       inherit (pkgs.lib) filterAttrs mapAttrs mapAttrs' concatMap concatMapAttrs foldr;
       inherit (pkgs.lib.strings) hasPrefix;
       # string() -> {string()->derivation()} -> {string()->derivation()}
@@ -44,6 +44,8 @@
       labelledPackagesFor = {lisp, system}:
         labelPackages {inherit lisp system;}
           (preprocess system nix-cl.packages.${system}.${lisp}.pkgs);
+      isBroken = d: (d.meta or {}).broken or false;
+      removeBroken = ds: filter (d: !(isBroken d)) ds;
       excluded = import ./excluded.nix;
       included = (name: true); # (name: hasPrefix "c" name);
       # memoize dependency sets for performance necessity
@@ -54,8 +56,8 @@
           let system = drv.system; in
             { #"${name}-base"  = drv;
               "${name}-jumbo" = (drv.overrideLispAttrs (o: { #propagatedBuildInputs = o.propagatedBuildInputs ++ jumbo-deps.programs ++ jumbo-deps.libraries;
-                nativeBuildInputs = jumbo-deps.${system}.programs;
-                nativeLibs = jumbo-deps.${system}.libraries;
+                nativeBuildInputs = removeBroken jumbo-deps.${system}.programs;
+                nativeLibs = removeBroken jumbo-deps.${system}.libraries;
                 variant = "jumbo"; }));
           }) lisp-pkgs;
       lispPackages =
